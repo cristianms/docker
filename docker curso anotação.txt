@@ -1,0 +1,87 @@
+docker
+- os containers, fazem parte de uma tecnologia que já existia LXC (linux containers)
+- os containers tem o objetivo de isolar processos
+- apenas sistemas de core baseados em linux
+- o docker é uma engine/camada para gerenciar os containers
+- o docker facilita a maneira de trabalhar com container oferecendo uma cli, api rest e dockerfiles
+- containers
+	- segregação de processos no mesmo kernel
+	- sistemas de arquivos baseados em uma imagem
+	- leves e portáteis onde as aplicações rodam
+	- encapsula binários e bibliotecas necessários para execução de um app
+	- meio termo entre um chroot e uma vm
+	- as alterações feitas em um container nao ficam salvas quando ele é encerrado
+	-- a menos que seja dado um nome ao container e sempre seja usado a mesma instancia
+- imagens
+	- dockerfile é a receita para o build de uma imagem
+	- uma imagem é a base para a criação do container, modelo de sistema de arquivos
+	- somente leitura
+	- criadas a partir do build ou commit (commit desaconselhado por não se saber a receita)
+	- podem ser armazenadas no registro, dockerhub, repositório de imagens
+	- reaproveitáveis para n containers
+	- uma imagem é composta por layers, que são somente leitura
+	- cada build com alterações gera uma nova layer
+	- ao rodar o container é gerada uma nova layer, apenas essa pode ser alterada
+	- a junção das camadas forma a imagem
+	- reuso de camadas de imagens em outras imagens
+- comparacão
+	- imagem = classe
+	- container = instância de objeto
+- windows roda similar ao linux com (windows subsystem for linux)
+
+--------------------------------------------------------------------------------------------------------------
+
+Comandos úteis:
+
+docker container run {imagem}
+	- caso a imagem não exista executa o pull dela (download)
+	- create da imagem
+	- depois build do container
+	- depois exec do container
+	- parametro --rm remove o processo da lista de processos (docker ps)
+	- parametro --name {nome} inicia um container com um nome específico
+	- parametro -p {porta_pc}:{porta_container}
+	- parametro -d roda em modo daemon ou seja em background
+docker ps		- iguais
+docker container ps	- iguais
+docker container ls	- iguais
+docker container list	- iguais
+	- lista de processos (ativos)
+	- parametro -a para visualizar todos, inclusive os encerrados
+docker container start -ai {nome}
+	- inicia um container já criado
+docker container stop {nome}
+	- mata um container que está rodando pelo id ou nome
+docker container restart {nome}
+	- reinicia um container que estava parado, pelo id ou nome
+docker container run -p 8080:80 -v %cd%/not-found:/usr/share/nginx/html nginx
+	- rodar o nginx expondo a porta 8080 dele no porta 80 do pc local e mapeando a pasta /usr/share/nginx/html dele para a not-found do pc
+docker container inspect
+	- json de configurações/detalhes do container
+docker container exec {nome} {comando}
+	- roda comandos nos containers que estão rodando em background (daemon)
+	- escreve o resultado da execução no prompt
+docker container rm {nome}
+	- exclui o item
+
+
+docker image pull {nome}
+	- baixa a imagem para o pc
+docker image ls
+	- lista imagens
+docker image rm {nome}
+	- exclui o item
+docker image inspect
+	- json detalhes
+docker image tag {imagem} {tag}
+	- marca um nome diferente na imagem
+docker image build {caminho p dockerfile}
+	- gera a imagem a partir do dokerfile
+	- parametro -t {tag} permite colocar uma tag na imagem
+
+
+
+
+
+
+
